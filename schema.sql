@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS `board` (
 
 -- Dumping data for table blokus.board: ~400 rows (approximately)
 INSERT INTO `board` (`x`, `y`, `block_state`, `part_color`, `part_type`) VALUES
-	(1, 1, NULL, NULL, NULL),
-	(1, 2, NULL, NULL, NULL),
+	(1, 1, 'T', 'B', 'O'),
+	(1, 2, 'T', 'B', 'O'),
 	(1, 3, NULL, NULL, NULL),
 	(1, 4, NULL, NULL, NULL),
 	(1, 5, NULL, NULL, NULL),
@@ -44,13 +44,13 @@ INSERT INTO `board` (`x`, `y`, `block_state`, `part_color`, `part_type`) VALUES
 	(1, 16, NULL, NULL, NULL),
 	(1, 17, NULL, NULL, NULL),
 	(1, 18, NULL, NULL, NULL),
-	(1, 19, NULL, NULL, NULL),
-	(1, 20, NULL, NULL, NULL),
-	(2, 1, NULL, NULL, NULL),
-	(2, 2, NULL, NULL, NULL),
+	(1, 19, 'T', 'R', 'O'),
+	(1, 20, 'T', 'R', 'O'),
+	(2, 1, 'T', 'B', 'O'),
+	(2, 2, 'T', 'B', 'O'),
 	(2, 3, NULL, NULL, NULL),
-	(2, 4, NULL, NULL, NULL),
-	(2, 5, NULL, NULL, NULL),
+	(2, 4, 'T', 'B', 'Z4'),
+	(2, 5, 'T', 'B', 'Z4'),
 	(2, 6, NULL, NULL, NULL),
 	(2, 7, NULL, NULL, NULL),
 	(2, 8, NULL, NULL, NULL),
@@ -64,14 +64,14 @@ INSERT INTO `board` (`x`, `y`, `block_state`, `part_color`, `part_type`) VALUES
 	(2, 16, NULL, NULL, NULL),
 	(2, 17, NULL, NULL, NULL),
 	(2, 18, NULL, NULL, NULL),
-	(2, 19, NULL, NULL, NULL),
-	(2, 20, NULL, NULL, NULL),
+	(2, 19, 'T', 'R', 'O'),
+	(2, 20, 'T', 'R', 'O'),
 	(3, 1, NULL, NULL, NULL),
 	(3, 2, NULL, NULL, NULL),
-	(3, 3, NULL, NULL, NULL),
-	(3, 4, NULL, NULL, NULL),
+	(3, 3, 'T', 'B', 'Z4'),
+	(3, 4, 'T', 'B', 'Z4'),
 	(3, 5, NULL, NULL, NULL),
-	(3, 6, 'T', 'R', 'V5'),
+	(3, 6, NULL, NULL, NULL),
 	(3, 7, NULL, NULL, NULL),
 	(3, 8, NULL, NULL, NULL),
 	(3, 9, NULL, NULL, NULL),
@@ -82,8 +82,8 @@ INSERT INTO `board` (`x`, `y`, `block_state`, `part_color`, `part_type`) VALUES
 	(3, 14, NULL, NULL, NULL),
 	(3, 15, NULL, NULL, NULL),
 	(3, 16, NULL, NULL, NULL),
-	(3, 17, NULL, NULL, NULL),
-	(3, 18, NULL, NULL, NULL),
+	(3, 17, 'T', 'R', 'Z4'),
+	(3, 18, 'T', 'R', 'Z4'),
 	(3, 19, NULL, NULL, NULL),
 	(3, 20, NULL, NULL, NULL),
 	(4, 1, NULL, NULL, NULL),
@@ -91,7 +91,7 @@ INSERT INTO `board` (`x`, `y`, `block_state`, `part_color`, `part_type`) VALUES
 	(4, 3, NULL, NULL, NULL),
 	(4, 4, NULL, NULL, NULL),
 	(4, 5, NULL, NULL, NULL),
-	(4, 6, 'T', 'R', 'V5'),
+	(4, 6, NULL, NULL, NULL),
 	(4, 7, NULL, NULL, NULL),
 	(4, 8, NULL, NULL, NULL),
 	(4, 9, NULL, NULL, NULL),
@@ -101,8 +101,8 @@ INSERT INTO `board` (`x`, `y`, `block_state`, `part_color`, `part_type`) VALUES
 	(4, 13, NULL, NULL, NULL),
 	(4, 14, NULL, NULL, NULL),
 	(4, 15, NULL, NULL, NULL),
-	(4, 16, NULL, NULL, NULL),
-	(4, 17, NULL, NULL, NULL),
+	(4, 16, 'T', 'R', 'Z4'),
+	(4, 17, 'T', 'R', 'Z4'),
 	(4, 18, NULL, NULL, NULL),
 	(4, 19, NULL, NULL, NULL),
 	(4, 20, NULL, NULL, NULL),
@@ -111,9 +111,9 @@ INSERT INTO `board` (`x`, `y`, `block_state`, `part_color`, `part_type`) VALUES
 	(5, 3, NULL, NULL, NULL),
 	(5, 4, NULL, NULL, NULL),
 	(5, 5, NULL, NULL, NULL),
-	(5, 6, 'T', 'R', 'V5'),
-	(5, 7, 'T', 'R', 'V5'),
-	(5, 8, 'T', 'R', 'V5'),
+	(5, 6, NULL, NULL, NULL),
+	(5, 7, NULL, NULL, NULL),
+	(5, 8, NULL, NULL, NULL),
 	(5, 9, NULL, NULL, NULL),
 	(5, 10, NULL, NULL, NULL),
 	(5, 11, NULL, NULL, NULL),
@@ -386,8 +386,8 @@ INSERT INTO `board` (`x`, `y`, `block_state`, `part_color`, `part_type`) VALUES
 	(18, 18, NULL, NULL, NULL),
 	(18, 19, NULL, NULL, NULL),
 	(18, 20, NULL, NULL, NULL),
-	(19, 1, NULL, NULL, NULL),
-	(19, 2, NULL, NULL, NULL),
+	(19, 1, 'T', 'G', 'O'),
+	(19, 2, 'T', 'G', 'O'),
 	(19, 3, NULL, NULL, NULL),
 	(19, 4, NULL, NULL, NULL),
 	(19, 5, NULL, NULL, NULL),
@@ -404,10 +404,10 @@ INSERT INTO `board` (`x`, `y`, `block_state`, `part_color`, `part_type`) VALUES
 	(19, 16, NULL, NULL, NULL),
 	(19, 17, NULL, NULL, NULL),
 	(19, 18, NULL, NULL, NULL),
-	(19, 19, NULL, NULL, NULL),
-	(19, 20, NULL, NULL, NULL),
-	(20, 1, NULL, NULL, NULL),
-	(20, 2, NULL, NULL, NULL),
+	(19, 19, 'T', 'Y', 'O'),
+	(19, 20, 'T', 'Y', 'O'),
+	(20, 1, 'T', 'G', 'O'),
+	(20, 2, 'T', 'G', 'O'),
 	(20, 3, NULL, NULL, NULL),
 	(20, 4, NULL, NULL, NULL),
 	(20, 5, NULL, NULL, NULL),
@@ -424,8 +424,8 @@ INSERT INTO `board` (`x`, `y`, `block_state`, `part_color`, `part_type`) VALUES
 	(20, 16, NULL, NULL, NULL),
 	(20, 17, NULL, NULL, NULL),
 	(20, 18, NULL, NULL, NULL),
-	(20, 19, NULL, NULL, NULL),
-	(20, 20, NULL, NULL, NULL);
+	(20, 19, 'T', 'Y', 'O'),
+	(20, 20, 'T', 'Y', 'O');
 
 -- Dumping structure for πίνακας blokus.board_empty
 CREATE TABLE IF NOT EXISTS `board_empty` (
@@ -840,11 +840,270 @@ INSERT INTO `board_empty` (`x`, `y`, `block_state`, `part_color`, `part_type`) V
 	(20, 19, NULL, NULL, NULL),
 	(20, 20, NULL, NULL, NULL);
 
+-- Dumping structure for function blokus.check_for_overlap
+DELIMITER //
+CREATE FUNCTION `check_for_overlap`(`x1` INT,
+	`y1` INT,
+	`p_name` VARCHAR(50),
+	`orient` VARCHAR(50)
+) RETURNS binary(1)
+BEGIN
+DECLARE color VARCHAR(50);
+DECLARE d1,d2,C_X,C_Y tinyint;
+DECLARE ze, b_state VARCHAR(25);
+DECLARE i INT DEFAULT 1;
+DECLARE j INT DEFAULT 1;
+DECLARE f INT DEFAULT 1;
+DECLARE RET INT DEFAULT 0;
+SET C_X=x1;
+SET C_Y=y1;
+SELECT  dim1, dim2, zero INTO d1, d2, ze
+FROM parts WHERE part_name = p_name;
+			WHILE i<=d1 DO
+				WHILE j<=d2 DO
+					IF orient = 'zero' THEN 
+					 	IF SUBSTRING(ze,f,1)='1' THEN
+					 		SELECT block_state INTO b_state
+					 		FROM board WHERE x=C_X AND y=C_Y;
+					 		IF b_state='T' THEN
+					 			RETURN 0;
+					 		END IF;
+					 	END IF;
+					 		
+					 		IF j<d2 THEN
+					 			SET C_Y=C_Y+1;
+					 		ELSE 
+								 SET C_Y=y1;
+								 SET C_X=C_X+1;
+					 		END IF;  			
+					END IF;
+					SET f=f+1;
+					SET j=j+1;
+				END WHILE;
+				SET i=i+1;
+				SET j=1;
+			END WHILE;
+			
+RETURN 1;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for function blokus.check_part_availability
+DELIMITER //
+CREATE FUNCTION `check_part_availability`(`p_name` VARCHAR(50),
+	`part_color` VARCHAR(50)
+) RETURNS enum('T','F') CHARSET utf8mb4 COLLATE utf8mb4_general_ci
+BEGIN
+
+DECLARE p_state VARCHAR(25);
+			IF part_color='B' THEN 
+				SELECT B INTO p_state
+				FROM parts WHERE part_name=p_name;
+			ELSEIF part_color='R' THEN 
+					SELECT R INTO p_state
+				FROM parts WHERE part_name=p_name;
+			ELSEIF part_color='G' THEN 
+				SELECT G INTO p_state
+				FROM parts WHERE part_name=p_name;
+			ELSE
+				SELECT Y INTO p_state
+				FROM parts WHERE part_name=p_name;
+			END IF;
+RETURN p_state;
+END//
+DELIMITER ;
+
+-- Dumping structure for function blokus.check_part_diagonals
+DELIMITER //
+CREATE FUNCTION `check_part_diagonals`(`x1` INT,
+	`y1` INT,
+	`p_name` VARCHAR(50),
+	`orient` VARCHAR(50)
+) RETURNS binary(1)
+BEGIN
+
+DECLARE color, color2 VARCHAR(50);
+DECLARE d1,d2,C_X,C_Y tinyint;
+DECLARE ze, b_state, c_state, p_state VARCHAR(25);
+DECLARE i,i3 INT DEFAULT 1;
+DECLARE j,j3 INT DEFAULT 1;
+DECLARE f INT DEFAULT 1;
+DECLARE i2,j2 INT DEFAULT -1;
+DECLARE row_counts INT DEFAULT 0;
+DECLARE flag_sidetoside, flag_isdiagonals,p_state_flag, overlap_flag BOOLEAN DEFAULT FALSE;
+SET C_X=x1;
+SET C_Y=y1;
+SELECT  dim1, dim2, zero INTO d1, d2, ze
+FROM parts WHERE part_name = p_name;
+SELECT p_turn INTO color
+FROM game_status ;
+
+			IF color='B' THEN
+				SELECT COUNT(*) INTO row_counts
+				FROM parts WHERE B='F';
+			ELSEIF color='R' THEN
+				SELECT COUNT(*) INTO row_counts
+				FROM parts WHERE R='F';
+			ELSEIF color='G' THEN
+				SELECT COUNT(*) INTO row_counts
+				FROM parts WHERE G='F';
+			ELSE
+				SELECT COUNT(*) INTO row_counts
+				FROM parts WHERE Y='F';
+			END IF;
+			
+			IF row_counts=0 THEN
+				WHILE i<=d1 DO
+					WHILE j<=d2 DO
+						IF orient = 'zero' THEN 
+							IF SUBSTRING(ze,f,1)='1' THEN
+							
+								WHILE i3<=20 DO
+									WHILE j3<=20 DO
+										IF C_X=i3 AND C_Y=j3 THEN
+											RETURN 1;
+										END IF;
+										SET j3=j3+19;
+									END WHILE;
+									SET i3=i3+19;
+									SET j3=1;
+								END WHILE; 	
+									
+							END IF;	
+							
+							SET i3=1;
+							SET j3=1;
+							
+							IF j<d2 THEN
+								SET C_Y=C_Y+1;
+							ELSE 
+								SET C_Y=y1;
+								SET C_X=C_X+1;
+							END IF;  
+										
+						END IF;
+						SET f=f+1;
+						SET j=j+1;
+					END WHILE;
+					SET i=i+1;
+					SET j=1;
+				END WHILE;
+			END IF;
+			
+WHILE i<=d1 DO
+	WHILE j<=d2 DO
+		IF orient = 'zero' THEN 
+			IF SUBSTRING(ze,f,1)='1' THEN
+				WHILE i2<=1 DO
+					WHILE j2<=1 DO
+						SELECT part_color INTO color2
+						FROM board WHERE x=C_X+i2 AND y=C_Y+j2;
+						IF color2=color THEN
+							RETURN 1;
+						END IF;
+						SET j2=j2+2;
+					END WHILE;
+					SET i2=i2+2;
+					SET j2=-1;
+				END WHILE;
+				
+				SET i2=-1;
+				SET j2=-1; 		
+				
+			END IF;	
+			IF j<d2 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		SET f=f+1;
+		SET j=j+1;
+	END WHILE;
+	SET i=i+1;
+	SET j=1;
+END WHILE;
+
+				
+
+RETURN 0;
+END//
+DELIMITER ;
+
+-- Dumping structure for function blokus.check_part_sidetoside
+DELIMITER //
+CREATE FUNCTION `check_part_sidetoside`(`x1` INT,
+	`y1` INT,
+	`p_name` VARCHAR(50),
+	`orient` VARCHAR(50)
+) RETURNS binary(1)
+BEGIN
+
+DECLARE color, color2 VARCHAR(50);
+DECLARE d1,d2,C_X,C_Y tinyint;
+DECLARE ze, b_state, c_state, p_state VARCHAR(25);
+DECLARE i INT DEFAULT 1;
+DECLARE j INT DEFAULT 1;
+DECLARE f INT DEFAULT 1;
+DECLARE i2,j2 INT DEFAULT -1;
+DECLARE flag_sidetoside, flag_isdiagonals,p_state_flag, overlap_flag BOOLEAN DEFAULT FALSE;
+SET C_X=x1;
+SET C_Y=y1;
+SELECT  dim1, dim2, zero INTO d1, d2, ze
+FROM parts WHERE part_name = p_name;
+SELECT p_turn INTO color
+FROM game_status ;
+WHILE i<=d1 DO
+	WHILE j<=d2 DO
+		IF orient = 'zero' THEN 
+			IF SUBSTRING(ze,f,1)='1' THEN
+				WHILE i2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X+i2 AND y=C_Y;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET i2=i2+2;
+				END WHILE;
+				
+				WHILE j2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X AND y=C_Y+j2;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET j2=j2+2;
+				END WHILE; 		
+			END IF;	
+			IF j<d2 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		SET f=f+1;
+		SET j=j+1;
+	END WHILE;
+	SET i=i+1;
+	SET j=1;
+END WHILE;
+
+				
+
+
+RETURN 1;
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure blokus.clean_board
 DELIMITER //
 CREATE PROCEDURE `clean_board`()
 BEGIN
 REPLACE INTO board SELECT * FROM board_empty;
+REPLACE INTO parts SELECT * FROM parts_start;
 END//
 DELIMITER ;
 
@@ -858,7 +1117,7 @@ CREATE TABLE IF NOT EXISTS `game_status` (
 
 -- Dumping data for table blokus.game_status: ~1 rows (approximately)
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('not active', 'G', NULL, '2022-12-18 11:40:01');
+	('', 'G', NULL, '2022-12-30 18:22:21');
 
 -- Dumping structure for procedure blokus.move_part
 DELIMITER //
@@ -871,62 +1130,88 @@ CREATE PROCEDURE `move_part`(
 BEGIN
 DECLARE color VARCHAR(50);
 DECLARE d1,d2,C_X,C_Y tinyint;
-DECLARE ze VARCHAR(25);
+DECLARE ze, b_state, c_state, p_state VARCHAR(25);
 DECLARE i INT DEFAULT 1;
 DECLARE j INT DEFAULT 1;
 DECLARE f INT DEFAULT 1;
+DECLARE sidetoside_flag,diagonals_flag,p_state_flag, overlap_flag BOOLEAN DEFAULT FALSE;
 SET C_X=x1;
 SET C_Y=y1;
 SELECT  dim1, dim2, zero INTO d1, d2, ze
 FROM parts WHERE part_name = p_name;
 
-SELECT p_turn INTO color
-FROM game_status ;
+IF dim='zero' THEN
+	IF (C_X+d2-1<=20) THEN
+		IF (C_Y+d1-1<=20) THEN
+			SELECT p_turn INTO color
+			FROM game_status ;
+			
+			SET p_state_flag=check_part_availability(p_name, color)='T';
+			SET overlap_flag=check_for_overlap(C_X,C_Y,p_name,dim)=1;
+			SET sidetoside_flag=check_part_sidetoside(C_X,C_Y,p_name,dim)=1;
+			SET diagonals_flag=check_part_diagonals(C_X,C_Y,p_name,dim)=1;
+			IF overlap_flag=TRUE AND p_state_flag=TRUE AND sidetoside_flag=TRUE AND diagonals_flag=TRUE THEN
+				WHILE i<=d1 DO
+					WHILE j<=d2 DO
+						IF dim = 'zero' THEN 
+						 	IF SUBSTRING(ze,f,1)='1' THEN
+						 		UPDATE board
+						 		SET part_type=p_name, part_color=color, block_state='T'
+						 		WHERE x=C_X AND y=C_Y;
+						 	END IF;
+						 		
+						 		IF j<d2 THEN
+						 			SET C_Y=C_Y+1;
+						 		ELSE 
+									 SET C_Y=y1;
+									 SET C_X=C_X+1;
+						 		END IF;  			
+						END IF;
+						SET f=f+1;
+						SET j=j+1;
+					END WHILE;
+					SET i=i+1;
+					SET j=1;
+				END WHILE;
 
-WHILE i<=d1 DO
-	WHILE j<=d2 DO
-		IF dim = 'zero' THEN 
-		 	IF SUBSTRING(ze,f,1)='1' THEN
-		 		UPDATE board
-		 		SET part_type=p_name, part_color=color, block_state='T'
-		 		WHERE x=C_X AND y=C_Y;
-		 	END IF;
-		 		
-		 		IF j<d2 THEN
-		 			SET C_Y=C_Y+1;
-		 		ELSE 
-					 SET C_Y=y1;
-					 SET C_X=C_X+1;
-		 		END IF;  			
+				
+				IF color='B' THEN 
+					UPDATE game_status
+					SET p_turn= 'R';
+					UPDATE parts
+					SET B='F'
+					WHERE part_name=p_name;
+				ELSEIF color='R' THEN 
+					UPDATE game_status
+					SET p_turn= 'G';
+					UPDATE parts
+					SET R='F'
+					WHERE part_name=p_name;
+				ELSEIF color='G' THEN 
+					UPDATE game_status
+					SET p_turn= 'Y';
+					UPDATE parts
+					SET G='F'
+					WHERE part_name=p_name;
+				ELSE
+					UPDATE game_status
+					SET p_turn= 'B';
+					UPDATE parts
+					SET Y='F'
+					WHERE part_name=p_name;
+				END IF;
+			END IF;
+				
 		END IF;
-		SET f=f+1;
-		SET j=j+1;
-	END WHILE;
-	SET i=i+1;
-	SET j=1;
-END WHILE;
-
-IF color='B' THEN 
-	UPDATE game_status
-	SET p_turn= 'R';
-ELSEIF color='R' THEN 
-	UPDATE game_status
-	SET p_turn= 'G';
-ELSEIF color='G' THEN 
-	UPDATE game_status
-	SET p_turn= 'Y';
-ELSE
-	UPDATE game_status
-	SET p_turn= 'B';
 END IF;
-
+END IF;
 
 END//
 DELIMITER ;
 
 -- Dumping structure for πίνακας blokus.parts
 CREATE TABLE IF NOT EXISTS `parts` (
-  `part_name` enum('1','2','I3','V3','I4','L4','Z4','T4','O','I5','V5','L5','T5','Z5','F','X','U','P','W','N','Y') DEFAULT NULL,
+  `part_name` enum('1','2','I3','V3','I4','L4','Z4','T4','O','I5','V5','L5','T5','Z5','F','X','U','P','W','N','Y') NOT NULL,
   `dim1` tinyint(1) NOT NULL DEFAULT 0,
   `dim2` tinyint(1) NOT NULL DEFAULT 0,
   `zero` varchar(25) NOT NULL DEFAULT '',
@@ -934,15 +1219,54 @@ CREATE TABLE IF NOT EXISTS `parts` (
   `R` enum('T','F') NOT NULL DEFAULT 'T',
   `B` enum('T','F') NOT NULL DEFAULT 'T',
   `Y` enum('T','F') NOT NULL DEFAULT 'T',
-  `G` enum('T','F') NOT NULL DEFAULT 'T'
+  `G` enum('T','F') NOT NULL DEFAULT 'T',
+  PRIMARY KEY (`part_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table blokus.parts: ~21 rows (approximately)
 INSERT INTO `parts` (`part_name`, `dim1`, `dim2`, `zero`, `part_state`, `R`, `B`, `Y`, `G`) VALUES
 	('1', 1, 1, '1', NULL, 'T', 'T', 'T', 'T'),
 	('2', 1, 2, '11', NULL, 'T', 'T', 'T', 'T'),
-	('V3', 2, 2, '1110', NULL, 'T', 'T', 'T', 'T'),
 	('I3', 1, 3, '111', NULL, 'T', 'T', 'T', 'T'),
+	('V3', 2, 2, '1110', NULL, 'T', 'T', 'T', 'T'),
+	('I4', 1, 4, '1111', NULL, 'T', 'T', 'T', 'T'),
+	('L4', 2, 3, '100111', NULL, 'T', 'T', 'T', 'T'),
+	('Z4', 2, 3, '011110', NULL, 'F', 'F', 'T', 'T'),
+	('T4', 2, 3, '111010', NULL, 'T', 'T', 'T', 'T'),
+	('O', 2, 2, '1111', NULL, 'F', 'F', 'F', 'F'),
+	('I5', 1, 5, '11111', NULL, 'T', 'T', 'T', 'T'),
+	('V5', 3, 3, '100100111', NULL, 'T', 'T', 'T', 'T'),
+	('L5', 2, 4, '11111000', NULL, 'T', 'T', 'T', 'T'),
+	('T5', 3, 3, '111010010', NULL, 'T', 'T', 'T', 'T'),
+	('Z5', 3, 3, '100111001', NULL, 'T', 'T', 'T', 'T'),
+	('F', 3, 3, '010111100', NULL, 'T', 'T', 'T', 'T'),
+	('X', 3, 3, '010111010', NULL, 'T', 'T', 'T', 'T'),
+	('U', 2, 3, '101111', NULL, 'T', 'T', 'T', 'T'),
+	('P', 2, 3, '110111', NULL, 'T', 'T', 'T', 'T'),
+	('W', 3, 3, '100110011', NULL, 'T', 'T', 'T', 'T'),
+	('N', 2, 4, '01111100', NULL, 'T', 'T', 'T', 'T'),
+	('Y', 2, 4, '11110100', NULL, 'T', 'T', 'T', 'T');
+
+-- Dumping structure for πίνακας blokus.parts_start
+CREATE TABLE IF NOT EXISTS `parts_start` (
+  `part_name` enum('1','2','I3','V3','I4','L4','Z4','T4','O','I5','V5','L5','T5','Z5','F','X','U','P','W','N','Y') NOT NULL,
+  `dim1` tinyint(1) NOT NULL DEFAULT 0,
+  `dim2` tinyint(1) NOT NULL DEFAULT 0,
+  `zero` varchar(25) NOT NULL DEFAULT '',
+  `part_state` enum('T') DEFAULT NULL,
+  `R` enum('T','F') NOT NULL DEFAULT 'T',
+  `B` enum('T','F') NOT NULL DEFAULT 'T',
+  `Y` enum('T','F') NOT NULL DEFAULT 'T',
+  `G` enum('T','F') NOT NULL DEFAULT 'T',
+  PRIMARY KEY (`part_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+
+-- Dumping data for table blokus.parts_start: ~21 rows (approximately)
+INSERT INTO `parts_start` (`part_name`, `dim1`, `dim2`, `zero`, `part_state`, `R`, `B`, `Y`, `G`) VALUES
+	('1', 1, 1, '1', NULL, 'T', 'T', 'T', 'T'),
+	('2', 1, 2, '11', NULL, 'T', 'T', 'T', 'T'),
+	('I3', 1, 3, '111', NULL, 'T', 'T', 'T', 'T'),
+	('V3', 2, 2, '1110', NULL, 'T', 'T', 'T', 'T'),
 	('I4', 1, 4, '1111', NULL, 'T', 'T', 'T', 'T'),
 	('L4', 2, 3, '100111', NULL, 'T', 'T', 'T', 'T'),
 	('Z4', 2, 3, '011110', NULL, 'T', 'T', 'T', 'T'),
@@ -966,16 +1290,16 @@ CREATE TABLE IF NOT EXISTS `players` (
   `username` varchar(20) DEFAULT NULL,
   `parts_color` enum('R','Y','G','B') NOT NULL,
   `token` varchar(100) DEFAULT NULL,
-  `timestamp` timestamp NULL DEFAULT NULL,
+  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`parts_color`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table blokus.players: ~4 rows (approximately)
-INSERT INTO `players` (`username`, `parts_color`, `token`, `timestamp`) VALUES
-	(NULL, 'R', NULL, NULL),
-	(NULL, 'Y', NULL, NULL),
-	(NULL, 'G', NULL, NULL),
-	(NULL, 'B', NULL, NULL);
+INSERT INTO `players` (`username`, `parts_color`, `token`, `last_action`) VALUES
+	('nikoletta6', 'R', 'c76ad223a3ae39cdef46f90f1ae6d971', NULL),
+	('nikoletta6', 'Y', '3141a9e9b94d2524e6261e6ccdbb702b', NULL),
+	('nikoletta', 'G', '8ff1200eb3d4d4a72fd644db42a2aad7', NULL),
+	('nikoletta6', 'B', '67a2ef51ff840a39db9eb7f0355aaa25', NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
