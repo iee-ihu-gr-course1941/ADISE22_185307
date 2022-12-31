@@ -1190,7 +1190,7 @@ CREATE TABLE IF NOT EXISTS `game_status` (
 
 -- Dumping data for table blokus.game_status: ~1 rows (approximately)
 INSERT INTO `game_status` (`g_status`, `p_turn`, `g_result`, `last_change`, `pass_count`) VALUES
-	('started', 'R', 'NA', '2022-12-31 13:39:06', 0);
+	('started', 'R', 'NA', '2022-12-31 15:54:34', 0);
 
 -- Dumping structure for procedure blokus.move_part
 DELIMITER //
@@ -1218,7 +1218,7 @@ SELECT p_turn INTO color
 FROM game_status ;
 
 	SELECT player_status INTO player_state
-	FROM game_status WHERE parts_color=color ;
+	FROM players WHERE parts_color=color ;
 
 
 IF game_status_flag='started' AND player_state='active' THEN
