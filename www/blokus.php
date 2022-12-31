@@ -14,9 +14,11 @@ $request=explode('/', trim($_SERVER['PATH_INFO'],'/'));
 $input = json_decode(file_get_contents('php://input'), true);
 
 switch ($r=array_shift($request)){
+    
     case 'board' :
         if (sizeof($request)==0) {handle_board($method);}
         else {header("HTTP/1.1 404 Not Found");}
+        print_r($request[0]);
         break;
     case 'status':
         if (sizeof($request)==0) {handle_status($method);}
@@ -25,14 +27,28 @@ switch ($r=array_shift($request)){
     case 'players': handle_player($method, $request, $input);
         break;
     case 'parts': 
-        if (sizeof($request)==0) {handle_parts($method);}
+        if (sizeof($request)==0) {handle_parts($method); print_r($request[0]);}
         else {header("HTTP/1.1 404 Not Found");}
         break;
-    case 'move': handle_move($method, $request[0],$request[1],$request[2],$request[3], $input);
+    case 'move': if (sizeof($request)==4) {handle_move($method, $request[0],$request[1],$request[2],$request[3], $input);}
+        else {header("HTTP/1.1 404 Not Found");}
+        break;
+    case 'pass':
+        if (sizeof($request)==0) {handle_pass($method);}
+        else {header("HTTP/1.1 404 Not Found");}
         break;
     default: header("HTTP/1.1 404 Not Found");
         exit;
 
+}
+
+function handle_pass($method){
+
+    if($method=='POST'){
+        user_pass();
+    }else{
+        header('HTTP/1.1405 Method Not Allowed');
+    }
 }
 
 function handle_parts($method){

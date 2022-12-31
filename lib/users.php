@@ -34,4 +34,12 @@ function show_players(){
     print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
 }
 
+function user_pass(){
+    global $mysqli;
+
+    $sql = 'call pass()';
+    $mysqli-> query($sql);
+    show_board();
+}
+
 ?>
