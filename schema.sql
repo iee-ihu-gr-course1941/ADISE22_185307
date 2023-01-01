@@ -869,10 +869,10 @@ SET final_points=g_points WHERE parts_color='G';
 
 SELECT parts_color INTO winner
 FROM players
-ORDER BY final_points DESC LIMIT 1;
+ORDER BY final_points LIMIT 1;
 
 UPDATE game_status
-SET result=winner;
+SET g_result=winner;
 
 END//
 DELIMITER ;
@@ -887,19 +887,21 @@ CREATE FUNCTION `check_for_overlap`(`x1` INT,
 BEGIN
 DECLARE color VARCHAR(50);
 DECLARE d1,d2,C_X,C_Y tinyint;
-DECLARE ze, b_state VARCHAR(25);
+DECLARE o0, o90,o180, o270, mir0, mir90, mir180, mir270, b_state VARCHAR(25);
 DECLARE i INT DEFAULT 1;
 DECLARE j INT DEFAULT 1;
 DECLARE f INT DEFAULT 1;
 DECLARE RET INT DEFAULT 0;
 SET C_X=x1;
 SET C_Y=y1;
-SELECT  dim1, dim2, zero INTO d1, d2, ze
+SELECT  dim1, dim2, `0`,`90`,`180`,`270`, mirror0, mirror90, mirror180, mirror270 INTO d1, d2, o0, o90,o180, o270, mir0, mir90, mir180, mir270
 FROM parts WHERE part_name = p_name;
+
+IF orient='0' OR orient='180' OR orient='mirror0' OR orient='mirror180' THEN
 			WHILE i<=d1 DO
 				WHILE j<=d2 DO
-					IF orient = 'zero' THEN 
-					 	IF SUBSTRING(ze,f,1)='1' THEN
+					IF orient = '0' THEN 
+					 	IF SUBSTRING(o0,f,1)='1' THEN
 					 		SELECT block_state INTO b_state
 					 		FROM board WHERE x=C_X AND y=C_Y;
 					 		IF b_state='T' THEN
@@ -914,12 +916,144 @@ FROM parts WHERE part_name = p_name;
 								 SET C_X=C_X+1;
 					 		END IF;  			
 					END IF;
+					
+					IF orient = '180' THEN 
+					 	IF SUBSTRING(o180,f,1)='1' THEN
+					 		SELECT block_state INTO b_state
+					 		FROM board WHERE x=C_X AND y=C_Y;
+					 		IF b_state='T' THEN
+					 			RETURN 0;
+					 		END IF;
+					 	END IF;
+					 		
+					 		IF j<d2 THEN
+					 			SET C_Y=C_Y+1;
+					 		ELSE 
+								 SET C_Y=y1;
+								 SET C_X=C_X+1;
+					 		END IF;  			
+					END IF;
+					
+					IF orient = 'mirror0' THEN 
+					 	IF SUBSTRING(mir0,f,1)='1' THEN
+					 		SELECT block_state INTO b_state
+					 		FROM board WHERE x=C_X AND y=C_Y;
+					 		IF b_state='T' THEN
+					 			RETURN 0;
+					 		END IF;
+					 	END IF;
+					 		
+					 		IF j<d2 THEN
+					 			SET C_Y=C_Y+1;
+					 		ELSE 
+								 SET C_Y=y1;
+								 SET C_X=C_X+1;
+					 		END IF;  			
+					END IF;
+					
+					IF orient = 'mirror180' THEN 
+					 	IF SUBSTRING(mir180,f,1)='1' THEN
+					 		SELECT block_state INTO b_state
+					 		FROM board WHERE x=C_X AND y=C_Y;
+					 		IF b_state='T' THEN
+					 			RETURN 0;
+					 		END IF;
+					 	END IF;
+					 		
+					 		IF j<d2 THEN
+					 			SET C_Y=C_Y+1;
+					 		ELSE 
+								 SET C_Y=y1;
+								 SET C_X=C_X+1;
+					 		END IF;  			
+					END IF;
+					
 					SET f=f+1;
 					SET j=j+1;
 				END WHILE;
 				SET i=i+1;
 				SET j=1;
 			END WHILE;
+END IF;
+
+IF orient='90' OR orient='270' OR orient='mirror90' OR orient='mirror270' THEN
+		WHILE i<=d2 DO
+				WHILE j<=d1 DO
+					IF orient = '90' THEN 
+					 	IF SUBSTRING(o90,f,1)='1' THEN
+					 		SELECT block_state INTO b_state
+					 		FROM board WHERE x=C_X AND y=C_Y;
+					 		IF b_state='T' THEN
+					 			RETURN 0;
+					 		END IF;
+					 	END IF;
+					 		
+					 		IF j<d1 THEN
+					 			SET C_Y=C_Y+1;
+					 		ELSE 
+								 SET C_Y=y1;
+								 SET C_X=C_X+1;
+					 		END IF;  			
+					END IF;
+					
+					IF orient = '270' THEN 
+					 	IF SUBSTRING(o270,f,1)='1' THEN
+					 		SELECT block_state INTO b_state
+					 		FROM board WHERE x=C_X AND y=C_Y;
+					 		IF b_state='T' THEN
+					 			RETURN 0;
+					 		END IF;
+					 	END IF;
+					 		
+					 		IF j<d1 THEN
+					 			SET C_Y=C_Y+1;
+					 		ELSE 
+								 SET C_Y=y1;
+								 SET C_X=C_X+1;
+					 		END IF;  			
+					END IF;
+					
+					IF orient = 'mirror90' THEN 
+					 	IF SUBSTRING(mir0,f,1)='1' THEN
+					 		SELECT block_state INTO b_state
+					 		FROM board WHERE x=C_X AND y=C_Y;
+					 		IF b_state='T' THEN
+					 			RETURN 0;
+					 		END IF;
+					 	END IF;
+					 		
+					 		IF j<d1 THEN
+					 			SET C_Y=C_Y+1;
+					 		ELSE 
+								 SET C_Y=y1;
+								 SET C_X=C_X+1;
+					 		END IF;  			
+					END IF;
+					
+					IF orient = 'mirror270' THEN 
+					 	IF SUBSTRING(mir270,f,1)='1' THEN
+					 		SELECT block_state INTO b_state
+					 		FROM board WHERE x=C_X AND y=C_Y;
+					 		IF b_state='T' THEN
+					 			RETURN 0;
+					 		END IF;
+					 	END IF;
+					 		
+					 		IF j<d1 THEN
+					 			SET C_Y=C_Y+1;
+					 		ELSE 
+								 SET C_Y=y1;
+								 SET C_X=C_X+1;
+					 		END IF;  			
+					END IF;
+					
+					SET f=f+1;
+					SET j=j+1;
+				END WHILE;
+				SET i=i+1;
+				SET j=1;
+			END WHILE;
+END IF;
 			
 RETURN 1;
 
@@ -993,7 +1127,7 @@ BEGIN
 
 DECLARE color, color2 VARCHAR(50);
 DECLARE d1,d2,C_X,C_Y tinyint;
-DECLARE ze, b_state, c_state, p_state VARCHAR(25);
+DECLARE o0, o90,o180, o270, mir0, mir90, mir180, mir270, b_state, c_state, p_state VARCHAR(25);
 DECLARE i,i3 INT DEFAULT 1;
 DECLARE j,j3 INT DEFAULT 1;
 DECLARE f INT DEFAULT 1;
@@ -1002,7 +1136,7 @@ DECLARE row_counts INT DEFAULT 0;
 DECLARE flag_sidetoside, flag_isdiagonals,p_state_flag, overlap_flag BOOLEAN DEFAULT FALSE;
 SET C_X=x1;
 SET C_Y=y1;
-SELECT  dim1, dim2, zero INTO d1, d2, ze
+SELECT  dim1, dim2, `0`,`90`,`180`,`270`, mirror0, mirror90, mirror180, mirror270 INTO d1, d2, o0, o90,o180, o270, mir0, mir90, mir180, mir270
 FROM parts WHERE part_name = p_name;
 SELECT p_turn INTO color
 FROM game_status ;
@@ -1022,10 +1156,11 @@ FROM game_status ;
 			END IF;
 			
 			IF row_counts=0 THEN
+			IF orient='0' OR orient='180' OR orient='mirror0' OR orient='mirror180' THEN
 				WHILE i<=d1 DO
 					WHILE j<=d2 DO
-						IF orient = 'zero' THEN 
-							IF SUBSTRING(ze,f,1)='1' THEN
+						IF orient = '0' THEN 
+							IF SUBSTRING(o0,f,1)='1' THEN
 							
 								WHILE i3<=20 DO
 									WHILE j3<=20 DO
@@ -1051,6 +1186,91 @@ FROM game_status ;
 							END IF;  
 										
 						END IF;
+						
+						IF orient = '180' THEN 
+							IF SUBSTRING(o180,f,1)='1' THEN
+							
+								WHILE i3<=20 DO
+									WHILE j3<=20 DO
+										IF C_X=i3 AND C_Y=j3 THEN
+											RETURN 1;
+										END IF;
+										SET j3=j3+19;
+									END WHILE;
+									SET i3=i3+19;
+									SET j3=1;
+								END WHILE; 	
+									
+							END IF;	
+							
+							SET i3=1;
+							SET j3=1;
+							
+							IF j<d2 THEN
+								SET C_Y=C_Y+1;
+							ELSE 
+								SET C_Y=y1;
+								SET C_X=C_X+1;
+							END IF;  
+										
+						END IF;
+						
+						IF orient = 'mirror0' THEN 
+							IF SUBSTRING(mir0,f,1)='1' THEN
+							
+								WHILE i3<=20 DO
+									WHILE j3<=20 DO
+										IF C_X=i3 AND C_Y=j3 THEN
+											RETURN 1;
+										END IF;
+										SET j3=j3+19;
+									END WHILE;
+									SET i3=i3+19;
+									SET j3=1;
+								END WHILE; 	
+									
+							END IF;	
+							
+							SET i3=1;
+							SET j3=1;
+							
+							IF j<d2 THEN
+								SET C_Y=C_Y+1;
+							ELSE 
+								SET C_Y=y1;
+								SET C_X=C_X+1;
+							END IF;  
+										
+						END IF;
+						
+						IF orient = 'mirror180' THEN 
+							IF SUBSTRING(mir180,f,1)='1' THEN
+							
+								WHILE i3<=20 DO
+									WHILE j3<=20 DO
+										IF C_X=i3 AND C_Y=j3 THEN
+											RETURN 1;
+										END IF;
+										SET j3=j3+19;
+									END WHILE;
+									SET i3=i3+19;
+									SET j3=1;
+								END WHILE; 	
+									
+							END IF;	
+							
+							SET i3=1;
+							SET j3=1;
+							
+							IF j<d2 THEN
+								SET C_Y=C_Y+1;
+							ELSE 
+								SET C_Y=y1;
+								SET C_X=C_X+1;
+							END IF;  
+										
+						END IF;
+						
 						SET f=f+1;
 						SET j=j+1;
 					END WHILE;
@@ -1059,10 +1279,136 @@ FROM game_status ;
 				END WHILE;
 			END IF;
 			
+			
+			IF orient='90' OR orient='270' OR orient='mirror90' OR orient='mirror270' THEN
+				WHILE i<=d2 DO
+					WHILE j<=d1 DO
+						IF orient = '90' THEN 
+							IF SUBSTRING(o90,f,1)='1' THEN
+							
+								WHILE i3<=20 DO
+									WHILE j3<=20 DO
+										IF C_X=i3 AND C_Y=j3 THEN
+											RETURN 1;
+										END IF;
+										SET j3=j3+19;
+									END WHILE;
+									SET i3=i3+19;
+									SET j3=1;
+								END WHILE; 	
+									
+							END IF;	
+							
+							SET i3=1;
+							SET j3=1;
+							
+							IF j<d1 THEN
+								SET C_Y=C_Y+1;
+							ELSE 
+								SET C_Y=y1;
+								SET C_X=C_X+1;
+							END IF;  
+										
+						END IF;
+						
+						IF orient = '270' THEN 
+							IF SUBSTRING(o270,f,1)='1' THEN
+							
+								WHILE i3<=20 DO
+									WHILE j3<=20 DO
+										IF C_X=i3 AND C_Y=j3 THEN
+											RETURN 1;
+										END IF;
+										SET j3=j3+19;
+									END WHILE;
+									SET i3=i3+19;
+									SET j3=1;
+								END WHILE; 	
+									
+							END IF;	
+							
+							SET i3=1;
+							SET j3=1;
+							
+							IF j<d1 THEN
+								SET C_Y=C_Y+1;
+							ELSE 
+								SET C_Y=y1;
+								SET C_X=C_X+1;
+							END IF;  
+										
+						END IF;
+						
+						IF orient = 'mirror90' THEN 
+							IF SUBSTRING(mir90,f,1)='1' THEN
+							
+								WHILE i3<=20 DO
+									WHILE j3<=20 DO
+										IF C_X=i3 AND C_Y=j3 THEN
+											RETURN 1;
+										END IF;
+										SET j3=j3+19;
+									END WHILE;
+									SET i3=i3+19;
+									SET j3=1;
+								END WHILE; 	
+									
+							END IF;	
+							
+							SET i3=1;
+							SET j3=1;
+							
+							IF j<d1 THEN
+								SET C_Y=C_Y+1;
+							ELSE 
+								SET C_Y=y1;
+								SET C_X=C_X+1;
+							END IF;  
+										
+						END IF;
+						
+						IF orient = 'mirror270' THEN 
+							IF SUBSTRING(mir270,f,1)='1' THEN
+							
+								WHILE i3<=20 DO
+									WHILE j3<=20 DO
+										IF C_X=i3 AND C_Y=j3 THEN
+											RETURN 1;
+										END IF;
+										SET j3=j3+19;
+									END WHILE;
+									SET i3=i3+19;
+									SET j3=1;
+								END WHILE; 	
+									
+							END IF;	
+							
+							SET i3=1;
+							SET j3=1;
+							
+							IF j<d1 THEN
+								SET C_Y=C_Y+1;
+							ELSE 
+								SET C_Y=y1;
+								SET C_X=C_X+1;
+							END IF;  
+										
+						END IF;
+						
+						SET f=f+1;
+						SET j=j+1;
+					END WHILE;
+					SET i=i+1;
+					SET j=1;
+				END WHILE;
+			END IF;
+			END IF;
+			
+IF orient='0' OR orient='180' OR orient='mirror0' OR orient='mirror180' THEN			
 WHILE i<=d1 DO
 	WHILE j<=d2 DO
-		IF orient = 'zero' THEN 
-			IF SUBSTRING(ze,f,1)='1' THEN
+		IF orient = '0' THEN 
+			IF SUBSTRING(o0,f,1)='1' THEN
 				WHILE i2<=1 DO
 					WHILE j2<=1 DO
 						SELECT part_color INTO color2
@@ -1087,12 +1433,214 @@ WHILE i<=d1 DO
 				SET C_X=C_X+1;
 			END IF;  			
 		END IF;
+		
+		IF orient = '180' THEN 
+			IF SUBSTRING(o180,f,1)='1' THEN
+				WHILE i2<=1 DO
+					WHILE j2<=1 DO
+						SELECT part_color INTO color2
+						FROM board WHERE x=C_X+i2 AND y=C_Y+j2;
+						IF color2=color THEN
+							RETURN 1;
+						END IF;
+						SET j2=j2+2;
+					END WHILE;
+					SET i2=i2+2;
+					SET j2=-1;
+				END WHILE;
+				
+				SET i2=-1;
+				SET j2=-1; 		
+				
+			END IF;	
+			IF j<d2 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		IF orient = 'mirror0' THEN 
+			IF SUBSTRING(mir0,f,1)='1' THEN
+				WHILE i2<=1 DO
+					WHILE j2<=1 DO
+						SELECT part_color INTO color2
+						FROM board WHERE x=C_X+i2 AND y=C_Y+j2;
+						IF color2=color THEN
+							RETURN 1;
+						END IF;
+						SET j2=j2+2;
+					END WHILE;
+					SET i2=i2+2;
+					SET j2=-1;
+				END WHILE;
+				
+				SET i2=-1;
+				SET j2=-1; 		
+				
+			END IF;	
+			IF j<d2 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		IF orient = 'mirror180' THEN 
+			IF SUBSTRING(mir180,f,1)='1' THEN
+				WHILE i2<=1 DO
+					WHILE j2<=1 DO
+						SELECT part_color INTO color2
+						FROM board WHERE x=C_X+i2 AND y=C_Y+j2;
+						IF color2=color THEN
+							RETURN 1;
+						END IF;
+						SET j2=j2+2;
+					END WHILE;
+					SET i2=i2+2;
+					SET j2=-1;
+				END WHILE;
+				
+				SET i2=-1;
+				SET j2=-1; 		
+				
+			END IF;	
+			IF j<d2 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
 		SET f=f+1;
 		SET j=j+1;
 	END WHILE;
 	SET i=i+1;
 	SET j=1;
 END WHILE;
+END IF;
+
+IF orient='90' OR orient='270' OR orient='mirror90' OR orient='mirror270' THEN
+WHILE i<=d2 DO
+	WHILE j<=d1 DO
+		IF orient = '90' THEN 
+			IF SUBSTRING(o90,f,1)='1' THEN
+				WHILE i2<=1 DO
+					WHILE j2<=1 DO
+						SELECT part_color INTO color2
+						FROM board WHERE x=C_X+i2 AND y=C_Y+j2;
+						IF color2=color THEN
+							RETURN 1;
+						END IF;
+						SET j2=j2+2;
+					END WHILE;
+					SET i2=i2+2;
+					SET j2=-1;
+				END WHILE;
+				
+				SET i2=-1;
+				SET j2=-1; 		
+				
+			END IF;	
+			IF j<d1 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		IF orient = '270' THEN 
+			IF SUBSTRING(o270,f,1)='1' THEN
+				WHILE i2<=1 DO
+					WHILE j2<=1 DO
+						SELECT part_color INTO color2
+						FROM board WHERE x=C_X+i2 AND y=C_Y+j2;
+						IF color2=color THEN
+							RETURN 1;
+						END IF;
+						SET j2=j2+2;
+					END WHILE;
+					SET i2=i2+2;
+					SET j2=-1;
+				END WHILE;
+				
+				SET i2=-1;
+				SET j2=-1; 		
+				
+			END IF;	
+			IF j<d1 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		IF orient = 'mirror90' THEN 
+			IF SUBSTRING(mir90,f,1)='1' THEN
+				WHILE i2<=1 DO
+					WHILE j2<=1 DO
+						SELECT part_color INTO color2
+						FROM board WHERE x=C_X+i2 AND y=C_Y+j2;
+						IF color2=color THEN
+							RETURN 1;
+						END IF;
+						SET j2=j2+2;
+					END WHILE;
+					SET i2=i2+2;
+					SET j2=-1;
+				END WHILE;
+				
+				SET i2=-1;
+				SET j2=-1; 		
+				
+			END IF;	
+			IF j<d1 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		IF orient = 'mirror270' THEN 
+			IF SUBSTRING(mir270,f,1)='1' THEN
+				WHILE i2<=1 DO
+					WHILE j2<=1 DO
+						SELECT part_color INTO color2
+						FROM board WHERE x=C_X+i2 AND y=C_Y+j2;
+						IF color2=color THEN
+							RETURN 1;
+						END IF;
+						SET j2=j2+2;
+					END WHILE;
+					SET i2=i2+2;
+					SET j2=-1;
+				END WHILE;
+				
+				SET i2=-1;
+				SET j2=-1; 		
+				
+			END IF;	
+			IF j<d1 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		SET f=f+1;
+		SET j=j+1;
+	END WHILE;
+	SET i=i+1;
+	SET j=1;
+END WHILE;
+END IF;
 
 				
 
@@ -1111,22 +1659,23 @@ BEGIN
 
 DECLARE color, color2 VARCHAR(50);
 DECLARE d1,d2,C_X,C_Y tinyint;
-DECLARE ze, b_state, c_state, p_state VARCHAR(25);
+DECLARE o0, o90,o180, o270, mir0, mir90, mir180, mir270 VARCHAR(25);
 DECLARE i INT DEFAULT 1;
 DECLARE j INT DEFAULT 1;
 DECLARE f INT DEFAULT 1;
 DECLARE i2,j2 INT DEFAULT -1;
-DECLARE flag_sidetoside, flag_isdiagonals,p_state_flag, overlap_flag BOOLEAN DEFAULT FALSE;
 SET C_X=x1;
 SET C_Y=y1;
-SELECT  dim1, dim2, zero INTO d1, d2, ze
+SELECT  dim1, dim2, `0`,`90`,`180`,`270`, mirror0, mirror90, mirror180, mirror270 INTO d1, d2, o0, o90,o180, o270, mir0, mir90, mir180, mir270
 FROM parts WHERE part_name = p_name;
 SELECT p_turn INTO color
 FROM game_status ;
+
+IF orient='0' OR orient='180' OR orient='mirror0' OR orient='mirror180' THEN
 WHILE i<=d1 DO
 	WHILE j<=d2 DO
-		IF orient = 'zero' THEN 
-			IF SUBSTRING(ze,f,1)='1' THEN
+		IF orient = '0' THEN 
+			IF SUBSTRING(o0,f,1)='1' THEN
 				WHILE i2<=1 DO
 					SELECT part_color INTO color2
 					FROM board WHERE x=C_X+i2 AND y=C_Y;
@@ -1152,12 +1701,221 @@ WHILE i<=d1 DO
 				SET C_X=C_X+1;
 			END IF;  			
 		END IF;
+		
+		IF orient = '180' THEN 
+			IF SUBSTRING(o180,f,1)='1' THEN
+				WHILE i2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X+i2 AND y=C_Y;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET i2=i2+2;
+				END WHILE;
+				
+				WHILE j2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X AND y=C_Y+j2;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET j2=j2+2;
+				END WHILE; 		
+			END IF;	
+			IF j<d2 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		IF orient = 'mirror0' THEN 
+			IF SUBSTRING(mir0,f,1)='1' THEN
+				WHILE i2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X+i2 AND y=C_Y;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET i2=i2+2;
+				END WHILE;
+				
+				WHILE j2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X AND y=C_Y+j2;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET j2=j2+2;
+				END WHILE; 		
+			END IF;	
+			IF j<d2 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		IF orient = 'mirror180' THEN 
+			IF SUBSTRING(mir180,f,1)='1' THEN
+				WHILE i2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X+i2 AND y=C_Y;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET i2=i2+2;
+				END WHILE;
+				
+				WHILE j2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X AND y=C_Y+j2;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET j2=j2+2;
+				END WHILE; 		
+			END IF;	
+			IF j<d2 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
 		SET f=f+1;
 		SET j=j+1;
 	END WHILE;
 	SET i=i+1;
 	SET j=1;
 END WHILE;
+END IF;
+
+IF orient='90' OR orient='270' OR orient='mirror90' OR orient='mirror270' THEN
+WHILE i<=d2 DO
+	WHILE j<=d1 DO
+		IF orient = '90' THEN 
+			IF SUBSTRING(o90,f,1)='1' THEN
+				WHILE i2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X+i2 AND y=C_Y;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET i2=i2+2;
+				END WHILE;
+				
+				WHILE j2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X AND y=C_Y+j2;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET j2=j2+2;
+				END WHILE; 		
+			END IF;	
+			IF j<d1 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		IF orient = '270' THEN 
+			IF SUBSTRING(o270,f,1)='1' THEN
+				WHILE i2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X+i2 AND y=C_Y;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET i2=i2+2;
+				END WHILE;
+				
+				WHILE j2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X AND y=C_Y+j2;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET j2=j2+2;
+				END WHILE; 		
+			END IF;	
+			IF j<d1 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		IF orient = 'mirror90' THEN 
+			IF SUBSTRING(mir90,f,1)='1' THEN
+				WHILE i2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X+i2 AND y=C_Y;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET i2=i2+2;
+				END WHILE;
+				
+				WHILE j2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X AND y=C_Y+j2;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET j2=j2+2;
+				END WHILE; 		
+			END IF;	
+			IF j<d1 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		IF orient = 'mirror270' THEN 
+			IF SUBSTRING(mir270,f,1)='1' THEN
+				WHILE i2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X+i2 AND y=C_Y;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET i2=i2+2;
+				END WHILE;
+				
+				WHILE j2<=1 DO
+					SELECT part_color INTO color2
+					FROM board WHERE x=C_X AND y=C_Y+j2;
+					IF color2=color THEN
+						RETURN 0;
+					END IF;
+					SET j2=j2+2;
+				END WHILE; 		
+			END IF;	
+			IF j<d1 THEN
+				SET C_Y=C_Y+1;
+			ELSE 
+				SET C_Y=y1;
+				SET C_X=C_X+1;
+			END IF;  			
+		END IF;
+		
+		SET f=f+1;
+		SET j=j+1;
+	END WHILE;
+	SET i=i+1;
+	SET j=1;
+END WHILE;
+END IF;
 
 				
 
@@ -1190,7 +1948,7 @@ CREATE TABLE IF NOT EXISTS `game_status` (
 
 -- Dumping data for table blokus.game_status: ~1 rows (approximately)
 INSERT INTO `game_status` (`g_status`, `p_turn`, `g_result`, `last_change`, `pass_count`) VALUES
-	('started', 'R', 'NA', '2022-12-31 15:54:34', 0);
+	('started', 'B', 'NA', '2023-01-01 18:44:34', 0);
 
 -- Dumping structure for procedure blokus.move_part
 DELIMITER //
@@ -1198,19 +1956,19 @@ CREATE PROCEDURE `move_part`(
 	IN `x1` INT,
 	IN `y1` INT,
 	IN `p_name` VARCHAR(50),
-	IN `dim` VARCHAR(50)
+	IN `orient` VARCHAR(50)
 )
 BEGIN
 DECLARE color VARCHAR(50);
 DECLARE d1,d2,C_X,C_Y tinyint;
-DECLARE ze, b_state, c_state, player_state, game_status_flag VARCHAR(25);
+DECLARE o0, o90,o180, o270, mir0, mir90, mir180, mir270,  b_state, c_state, player_state, game_status_flag VARCHAR(25);
 DECLARE i INT DEFAULT 1;
 DECLARE j INT DEFAULT 1;
 DECLARE f INT DEFAULT 1;
 DECLARE sidetoside_flag,diagonals_flag,p_state_flag, overlap_flag BOOLEAN DEFAULT FALSE;
 SET C_X=x1;
 SET C_Y=y1;
-SELECT  dim1, dim2, zero INTO d1, d2, ze
+SELECT  dim1, dim2, `0`,`90`,`180`,`270`, mirror0, mirror90, mirror180, mirror270 INTO d1, d2, o0, o90,o180, o270, mir0, mir90, mir180, mir270
 FROM parts WHERE part_name = p_name;
 SELECT g_status INTO game_status_flag
 FROM game_status;
@@ -1222,19 +1980,19 @@ FROM game_status ;
 
 
 IF game_status_flag='started' AND player_state='active' THEN
-IF dim='zero' THEN
+IF orient='0' OR orient='180' OR orient='mirror0' OR orient='mirror180' THEN
 	IF (C_X+d2-1<=20) THEN
 		IF (C_Y+d1-1<=20) THEN
-			
+
 			SET p_state_flag=check_part_availability(p_name, color)='T';
-			SET overlap_flag=check_for_overlap(C_X,C_Y,p_name,dim)=1;
-			SET sidetoside_flag=check_part_sidetoside(C_X,C_Y,p_name,dim)=1;
-			SET diagonals_flag=check_part_diagonals(C_X,C_Y,p_name,dim)=1;
+			SET overlap_flag=check_for_overlap(C_X,C_Y,p_name,orient)=1;
+			SET sidetoside_flag=check_part_sidetoside(C_X,C_Y,p_name,orient)=1;
+			SET diagonals_flag=check_part_diagonals(C_X,C_Y,p_name,orient)=1;
 			IF overlap_flag=TRUE AND p_state_flag=TRUE AND sidetoside_flag=TRUE AND diagonals_flag=TRUE THEN
 				WHILE i<=d1 DO
 					WHILE j<=d2 DO
-						IF dim = 'zero' THEN 
-						 	IF SUBSTRING(ze,f,1)='1' THEN
+						IF orient = '0' THEN 
+						 	IF SUBSTRING(o0,f,1)='1' THEN
 						 		UPDATE board
 						 		SET part_type=p_name, part_color=color, block_state='T'
 						 		WHERE x=C_X AND y=C_Y;
@@ -1247,6 +2005,52 @@ IF dim='zero' THEN
 									 SET C_X=C_X+1;
 						 		END IF;  			
 						END IF;
+						
+						IF orient = '180' THEN 
+						 	IF SUBSTRING(o180,f,1)='1' THEN
+						 		UPDATE board
+						 		SET part_type=p_name, part_color=color, block_state='T'
+						 		WHERE x=C_X AND y=C_Y;
+						 	END IF;
+						 		
+						 		IF j<d2 THEN
+						 			SET C_Y=C_Y+1;
+						 		ELSE 
+									 SET C_Y=y1;
+									 SET C_X=C_X+1;
+						 		END IF;  			
+						END IF;
+						
+						IF orient = 'mirror0' THEN 
+						 	IF SUBSTRING(mir0,f,1)='1' THEN
+						 		UPDATE board
+						 		SET part_type=p_name, part_color=color, block_state='T'
+						 		WHERE x=C_X AND y=C_Y;
+						 	END IF;
+						 		
+						 		IF j<d2 THEN
+						 			SET C_Y=C_Y+1;
+						 		ELSE 
+									 SET C_Y=y1;
+									 SET C_X=C_X+1;
+						 		END IF;  			
+						END IF;
+						
+						IF orient = 'mirror180' THEN 
+						 	IF SUBSTRING(mir180,f,1)='1' THEN
+						 		UPDATE board
+						 		SET part_type=p_name, part_color=color, block_state='T'
+						 		WHERE x=C_X AND y=C_Y;
+						 	END IF;
+						 		
+						 		IF j<d2 THEN
+						 			SET C_Y=C_Y+1;
+						 		ELSE 
+									 SET C_Y=y1;
+									 SET C_X=C_X+1;
+						 		END IF;  			
+						END IF;
+						
 						SET f=f+1;
 						SET j=j+1;
 					END WHILE;
@@ -1286,6 +2090,118 @@ IF dim='zero' THEN
 		END IF;
 END IF;
 END IF;
+
+IF orient='90' OR orient='270' OR orient='mirror90' OR orient='mirror270' THEN
+	IF (C_X+d1-1<=20) THEN
+		IF (C_Y+d2-1<=20) THEN
+			
+			SET p_state_flag=check_part_availability(p_name, color)='T';
+			SET overlap_flag=check_for_overlap(C_X,C_Y,p_name,orient)=1;
+			SET sidetoside_flag=check_part_sidetoside(C_X,C_Y,p_name,orient)=1;
+			SET diagonals_flag=check_part_diagonals(C_X,C_Y,p_name,orient)=1;
+			IF overlap_flag=TRUE AND p_state_flag=TRUE AND sidetoside_flag=TRUE AND diagonals_flag=TRUE THEN
+				WHILE i<=d2 DO
+					WHILE j<=d1 DO
+						IF orient = '90' THEN 
+						 	IF SUBSTRING(o90,f,1)='1' THEN
+						 		UPDATE board
+						 		SET part_type=p_name, part_color=color, block_state='T'
+						 		WHERE x=C_X AND y=C_Y;
+						 	END IF;
+						 		
+						 		IF j<d1 THEN
+						 			SET C_Y=C_Y+1;
+						 		ELSE 
+									 SET C_Y=y1;
+									 SET C_X=C_X+1;
+						 		END IF;  			
+						END IF;
+						
+						IF orient = '270' THEN 
+						 	IF SUBSTRING(o270,f,1)='1' THEN
+						 		UPDATE board
+						 		SET part_type=p_name, part_color=color, block_state='T'
+						 		WHERE x=C_X AND y=C_Y;
+						 	END IF;
+						 		
+						 		IF j<d1 THEN
+						 			SET C_Y=C_Y+1;
+						 		ELSE 
+									 SET C_Y=y1;
+									 SET C_X=C_X+1;
+						 		END IF;  			
+						END IF;
+						
+						IF orient = 'mirror90' THEN 
+						 	IF SUBSTRING(mir90,f,1)='1' THEN
+						 		UPDATE board
+						 		SET part_type=p_name, part_color=color, block_state='T'
+						 		WHERE x=C_X AND y=C_Y;
+						 	END IF;
+						 		
+						 		IF j<d1 THEN
+						 			SET C_Y=C_Y+1;
+						 		ELSE 
+									 SET C_Y=y1;
+									 SET C_X=C_X+1;
+						 		END IF;  			
+						END IF;
+						
+						IF orient = 'mirror270' THEN 
+						 	IF SUBSTRING(mir270,f,1)='1' THEN
+						 		UPDATE board
+						 		SET part_type=p_name, part_color=color, block_state='T'
+						 		WHERE x=C_X AND y=C_Y;
+						 	END IF;
+						 		
+						 		IF j<d1 THEN
+						 			SET C_Y=C_Y+1;
+						 		ELSE 
+									 SET C_Y=y1;
+									 SET C_X=C_X+1;
+						 		END IF;  			
+						END IF;
+						
+						SET f=f+1;
+						SET j=j+1;
+					END WHILE;
+					SET i=i+1;
+					SET j=1;
+				END WHILE;
+				
+				CALL check_for_winner();
+				
+				IF color='B' THEN 
+					UPDATE game_status
+					SET p_turn= 'R';
+					UPDATE parts
+					SET B='F'
+					WHERE part_name=p_name;
+				ELSEIF color='R' THEN 
+					UPDATE game_status
+					SET p_turn= 'G';
+					UPDATE parts
+					SET R='F'
+					WHERE part_name=p_name;
+				ELSEIF color='G' THEN 
+					UPDATE game_status
+					SET p_turn= 'Y';
+					UPDATE parts
+					SET G='F'
+					WHERE part_name=p_name;
+				ELSE
+					UPDATE game_status
+					SET p_turn= 'B';
+					UPDATE parts
+					SET Y='F'
+					WHERE part_name=p_name;
+				END IF;
+			END IF;
+				
+		END IF;
+END IF;
+END IF;
+
 END IF;
 
 END//
@@ -1296,7 +2212,14 @@ CREATE TABLE IF NOT EXISTS `parts` (
   `part_name` enum('1','2','I3','V3','I4','L4','Z4','T4','O','I5','V5','L5','T5','Z5','F','X','U','P','W','N','Y') NOT NULL,
   `dim1` tinyint(1) NOT NULL DEFAULT 0,
   `dim2` tinyint(1) NOT NULL DEFAULT 0,
-  `zero` varchar(25) NOT NULL DEFAULT '',
+  `0` varchar(25) NOT NULL DEFAULT '',
+  `90` varchar(25) NOT NULL DEFAULT '',
+  `180` varchar(25) NOT NULL DEFAULT '',
+  `270` varchar(25) NOT NULL DEFAULT '',
+  `mirror0` varchar(25) NOT NULL DEFAULT '',
+  `mirror90` varchar(25) NOT NULL DEFAULT '',
+  `mirror180` varchar(25) NOT NULL DEFAULT '',
+  `mirror270` varchar(25) NOT NULL DEFAULT '',
   `R` enum('T','F') NOT NULL DEFAULT 'T',
   `B` enum('T','F') NOT NULL DEFAULT 'T',
   `Y` enum('T','F') NOT NULL DEFAULT 'T',
@@ -1306,35 +2229,42 @@ CREATE TABLE IF NOT EXISTS `parts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table blokus.parts: ~21 rows (approximately)
-INSERT INTO `parts` (`part_name`, `dim1`, `dim2`, `zero`, `R`, `B`, `Y`, `G`, `part_value`) VALUES
-	('1', 1, 1, '1', 'T', 'T', 'T', 'T', 1),
-	('2', 1, 2, '11', 'T', 'T', 'T', 'T', 2),
-	('I3', 1, 3, '111', 'T', 'T', 'T', 'T', 3),
-	('V3', 2, 2, '1110', 'T', 'T', 'T', 'T', 3),
-	('I4', 1, 4, '1111', 'T', 'T', 'T', 'T', 4),
-	('L4', 2, 3, '100111', 'T', 'T', 'T', 'T', 4),
-	('Z4', 2, 3, '011110', 'T', 'T', 'T', 'T', 4),
-	('T4', 2, 3, '111010', 'T', 'T', 'T', 'T', 4),
-	('O', 2, 2, '1111', 'T', 'T', 'T', 'T', 4),
-	('I5', 1, 5, '11111', 'T', 'T', 'T', 'T', 5),
-	('V5', 3, 3, '100100111', 'T', 'T', 'T', 'T', 5),
-	('L5', 2, 4, '11111000', 'T', 'T', 'T', 'T', 5),
-	('T5', 3, 3, '111010010', 'T', 'T', 'T', 'T', 5),
-	('Z5', 3, 3, '100111001', 'T', 'T', 'T', 'T', 5),
-	('F', 3, 3, '010111100', 'T', 'T', 'T', 'T', 5),
-	('X', 3, 3, '010111010', 'T', 'T', 'T', 'T', 5),
-	('U', 2, 3, '101111', 'T', 'T', 'T', 'T', 5),
-	('P', 2, 3, '110111', 'T', 'T', 'T', 'T', 5),
-	('W', 3, 3, '100110011', 'T', 'T', 'T', 'T', 5),
-	('N', 2, 4, '01111100', 'T', 'T', 'T', 'T', 5),
-	('Y', 2, 4, '11110100', 'T', 'T', 'T', 'T', 5);
+INSERT INTO `parts` (`part_name`, `dim1`, `dim2`, `0`, `90`, `180`, `270`, `mirror0`, `mirror90`, `mirror180`, `mirror270`, `R`, `B`, `Y`, `G`, `part_value`) VALUES
+	('1', 1, 1, '1', '1', '1', '1', '1', '1', '1', '1', 'T', 'T', 'T', 'T', 1),
+	('2', 1, 2, '11', '11', '11', '11', '11', '11', '11', '11', 'T', 'T', 'T', 'T', 2),
+	('I3', 1, 3, '111', '111', '111', '111', '111', '111', '111', '111', 'T', 'T', 'T', 'T', 3),
+	('V3', 2, 2, '1110', '1101', '0111', '1011', '1101', '1110', '1011', '0111', 'T', 'T', 'T', 'T', 3),
+	('I4', 1, 4, '1111', '1111', '1111', '1111', '1111', '1111', '1111', '1111', 'T', 'T', 'T', 'T', 4),
+	('L4', 2, 3, '100111', '111010', '111001', '010111', '001111', '110101', '111100', '101011', 'T', 'T', 'T', 'T', 4),
+	('Z4', 2, 3, '011110', '101101', '011110', '101101', '110011', '011110', '110011', '011110', 'T', 'T', 'T', 'T', 4),
+	('T4', 2, 3, '111010', '011101', '010111', '101110', '111010', '101110', '010111', '011101', 'T', 'T', 'T', 'T', 4),
+	('O', 2, 2, '1111', '1111', '1111', '1111', '1111', '1111', '1111', '1111', 'T', 'T', 'T', 'T', 4),
+	('I5', 1, 5, '11111', '11111', '11111', '11111', '11111', '11111', '11111', '11111', 'T', 'T', 'T', 'T', 5),
+	('V5', 3, 3, '100100111', '111100100', '111001001', '001001111', '001001111', '100100111', '111100100', '100100111', 'T', 'T', 'T', 'T', 5),
+	('L5', 2, 4, '11111000', '11010101', '00011111', '10101011', '11110001', '01010111', '10001111', '01010111', 'T', 'T', 'T', 'T', 5),
+	('T5', 3, 3, '111010010', '001111001', '010010111', '100111100', '111010010', '100111100', '010010111', '001111001', 'T', 'T', 'T', 'T', 5),
+	('Z5', 3, 3, '100111001', '011010110', '100111001', '011010110', '001111100', '110010011', '001111100', '110010011', 'T', 'T', 'T', 'T', 5),
+	('F', 3, 3, '010111100', '110011010', '001111010', '010110011', '010111001', '011110010', '100111010', '010011110', 'T', 'T', 'T', 'T', 5),
+	('X', 3, 3, '010111010', '010111010', '010111010', '010111010', '010111010', '010111010', '010111010', '010111010', 'T', 'T', 'T', 'T', 5),
+	('U', 2, 3, '101111', '111011', '111101', '110111', '101111', '110111', '111101', '111011', 'T', 'T', 'T', 'T', 5),
+	('P', 2, 3, '110111', '111110', '111011', '011111', '011111', '101111', '111110', '101111', 'T', 'T', 'T', 'T', 5),
+	('W', 3, 3, '100110011', '011110100', '110011001', '001011110', '001011110', '100110011', '011110100', '100110011', 'T', 'T', 'T', 'T', 5),
+	('N', 2, 4, '01111100', '10110101', '00111110', '10101101', '11100011', '01111010', '11000111', '01011110', 'T', 'T', 'T', 'T', 5),
+	('Y', 2, 4, '11110100', '01110101', '00101111', '10101110', '11110010', '10111010', '01001111', '01011101', 'T', 'T', 'T', 'T', 5);
 
 -- Dumping structure for πίνακας blokus.parts_start
 CREATE TABLE IF NOT EXISTS `parts_start` (
   `part_name` enum('1','2','I3','V3','I4','L4','Z4','T4','O','I5','V5','L5','T5','Z5','F','X','U','P','W','N','Y') NOT NULL,
   `dim1` tinyint(1) NOT NULL DEFAULT 0,
   `dim2` tinyint(1) NOT NULL DEFAULT 0,
-  `zero` varchar(25) NOT NULL DEFAULT '',
+  `0` varchar(25) NOT NULL DEFAULT '',
+  `90` varchar(25) NOT NULL DEFAULT '',
+  `180` varchar(25) NOT NULL DEFAULT '',
+  `270` varchar(25) NOT NULL DEFAULT '',
+  `mirror0` varchar(25) NOT NULL DEFAULT '',
+  `mirror90` varchar(25) NOT NULL DEFAULT '',
+  `mirror180` varchar(25) NOT NULL DEFAULT '',
+  `mirror270` varchar(25) NOT NULL DEFAULT '',
   `R` enum('T','F') NOT NULL DEFAULT 'T',
   `B` enum('T','F') NOT NULL DEFAULT 'T',
   `Y` enum('T','F') NOT NULL DEFAULT 'T',
@@ -1344,28 +2274,28 @@ CREATE TABLE IF NOT EXISTS `parts_start` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 -- Dumping data for table blokus.parts_start: ~21 rows (approximately)
-INSERT INTO `parts_start` (`part_name`, `dim1`, `dim2`, `zero`, `R`, `B`, `Y`, `G`, `part_value`) VALUES
-	('1', 1, 1, '1', 'T', 'T', 'T', 'T', 1),
-	('2', 1, 2, '11', 'T', 'T', 'T', 'T', 2),
-	('I3', 1, 3, '111', 'T', 'T', 'T', 'T', 3),
-	('V3', 2, 2, '1110', 'T', 'T', 'T', 'T', 3),
-	('I4', 1, 4, '1111', 'T', 'T', 'T', 'T', 4),
-	('L4', 2, 3, '100111', 'T', 'T', 'T', 'T', 4),
-	('Z4', 2, 3, '011110', 'T', 'T', 'T', 'T', 4),
-	('T4', 2, 3, '111010', 'T', 'T', 'T', 'T', 4),
-	('O', 2, 2, '1111', 'T', 'T', 'T', 'T', 4),
-	('I5', 1, 5, '11111', 'T', 'T', 'T', 'T', 5),
-	('V5', 3, 3, '100100111', 'T', 'T', 'T', 'T', 5),
-	('L5', 2, 4, '11111000', 'T', 'T', 'T', 'T', 5),
-	('T5', 3, 3, '111010010', 'T', 'T', 'T', 'T', 5),
-	('Z5', 3, 3, '100111001', 'T', 'T', 'T', 'T', 5),
-	('F', 3, 3, '010111100', 'T', 'T', 'T', 'T', 5),
-	('X', 3, 3, '010111010', 'T', 'T', 'T', 'T', 5),
-	('U', 2, 3, '101111', 'T', 'T', 'T', 'T', 5),
-	('P', 2, 3, '110111', 'T', 'T', 'T', 'T', 5),
-	('W', 3, 3, '100110011', 'T', 'T', 'T', 'T', 5),
-	('N', 2, 4, '01111100', 'T', 'T', 'T', 'T', 5),
-	('Y', 2, 4, '11110100', 'T', 'T', 'T', 'T', 5);
+INSERT INTO `parts_start` (`part_name`, `dim1`, `dim2`, `0`, `90`, `180`, `270`, `mirror0`, `mirror90`, `mirror180`, `mirror270`, `R`, `B`, `Y`, `G`, `part_value`) VALUES
+	('1', 1, 1, '1', '1', '1', '1', '1', '1', '1', '1', 'T', 'T', 'T', 'T', 1),
+	('2', 1, 2, '11', '11', '11', '11', '11', '11', '11', '11', 'T', 'T', 'T', 'T', 2),
+	('I3', 1, 3, '111', '111', '111', '111', '111', '111', '111', '111', 'T', 'T', 'T', 'T', 3),
+	('V3', 2, 2, '1110', '1101', '0111', '1011', '1101', '1110', '1011', '0111', 'T', 'T', 'T', 'T', 3),
+	('I4', 1, 4, '1111', '1111', '1111', '1111', '1111', '1111', '1111', '1111', 'T', 'T', 'T', 'T', 4),
+	('L4', 2, 3, '100111', '111010', '111001', '010111', '001111', '110101', '111100', '101011', 'T', 'T', 'T', 'T', 4),
+	('Z4', 2, 3, '011110', '101101', '011110', '101101', '110011', '011110', '110011', '011110', 'T', 'T', 'T', 'T', 4),
+	('T4', 2, 3, '111010', '011101', '010111', '101110', '111010', '101110', '010111', '011101', 'T', 'T', 'T', 'T', 4),
+	('O', 2, 2, '1111', '1111', '1111', '1111', '1111', '1111', '1111', '1111', 'T', 'T', 'T', 'T', 4),
+	('I5', 1, 5, '11111', '11111', '11111', '11111', '11111', '11111', '11111', '11111', 'T', 'T', 'T', 'T', 5),
+	('V5', 3, 3, '100100111', '111100100', '111001001', '001001111', '001001111', '100100111', '111100100', '100100111', 'T', 'T', 'T', 'T', 5),
+	('L5', 2, 4, '11111000', '11010101', '00011111', '10101011', '11110001', '01010111', '10001111', '01010111', 'T', 'T', 'T', 'T', 5),
+	('T5', 3, 3, '111010010', '001111001', '010010111', '100111100', '111010010', '100111100', '010010111', '001111001', 'T', 'T', 'T', 'T', 5),
+	('Z5', 3, 3, '100111001', '011010110', '100111001', '011010110', '001111100', '110010011', '001111100', '110010011', 'T', 'T', 'T', 'T', 5),
+	('F', 3, 3, '010111100', '110011010', '001111010', '010110011', '010111001', '011110010', '100111010', '010011110', 'T', 'T', 'T', 'T', 5),
+	('X', 3, 3, '010111010', '010111010', '010111010', '010111010', '010111010', '010111010', '010111010', '010111010', 'T', 'T', 'T', 'T', 5),
+	('U', 2, 3, '101111', '111011', '111101', '110111', '101111', '110111', '111101', '111011', 'T', 'T', 'T', 'T', 5),
+	('P', 2, 3, '110111', '111110', '111011', '011111', '011111', '101111', '111110', '101111', 'T', 'T', 'T', 'T', 5),
+	('W', 3, 3, '100110011', '011110100', '110011001', '001011110', '001011110', '100110011', '011110100', '100110011', 'T', 'T', 'T', 'T', 5),
+	('N', 2, 4, '01111100', '10110101', '00111110', '10101101', '11100011', '01111010', '11000111', '01011110', 'T', 'T', 'T', 'T', 5),
+	('Y', 2, 4, '11110100', '01110101', '00101111', '10101110', '11110010', '10111010', '01001111', '01011101', 'T', 'T', 'T', 'T', 5);
 
 -- Dumping structure for procedure blokus.pass
 DELIMITER //
