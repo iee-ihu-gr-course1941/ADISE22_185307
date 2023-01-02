@@ -1948,7 +1948,7 @@ CREATE TABLE IF NOT EXISTS `game_status` (
 
 -- Dumping data for table blokus.game_status: ~1 rows (approximately)
 INSERT INTO `game_status` (`g_status`, `p_turn`, `g_result`, `last_change`, `pass_count`) VALUES
-	('started', 'B', 'NA', '2023-01-01 18:44:34', 0);
+	('started', 'B', 'NA', '2023-01-02 15:47:31', 0);
 
 -- Dumping structure for procedure blokus.move_part
 DELIMITER //
@@ -2202,6 +2202,21 @@ IF orient='90' OR orient='270' OR orient='mirror90' OR orient='mirror270' THEN
 END IF;
 END IF;
 
+ELSEIF game_status_flag='started' AND player_state='blocked' THEN
+
+				IF color='B' THEN 
+					UPDATE game_status
+					SET p_turn= 'R';
+				ELSEIF color='R' THEN 
+					UPDATE game_status
+					SET p_turn= 'G';
+				ELSEIF color='G' THEN 
+					UPDATE game_status
+					SET p_turn= 'Y';
+				ELSE
+					UPDATE game_status
+					SET p_turn= 'B';
+				END IF;
 END IF;
 
 END//
@@ -2301,13 +2316,14 @@ INSERT INTO `parts_start` (`part_name`, `dim1`, `dim2`, `0`, `90`, `180`, `270`,
 DELIMITER //
 CREATE PROCEDURE `pass`()
 BEGIN
-DECLARE color, game_status_flag VARCHAR(25);
+DECLARE color, game_status_flag, p_status VARCHAR(25);
 DECLARE pass_c INT;
 SELECT pass_count,g_status,p_turn INTO pass_c,game_status_flag,color
 FROM game_status ;
+SELECT player_status INTO p_status
+FROM players WHERE parts_color= color ;
 
-
-IF game_status_flag='started' THEN
+IF game_status_flag='started' AND  p_status='active' THEN
 
 	IF color='B' THEN 
 		UPDATE game_status
@@ -2340,6 +2356,20 @@ IF game_status_flag='started' THEN
 		SET g_status='ended';
 		CALL calculate_points();
 	END IF;
+ELSEIF p_status='blocked' THEN
+	IF color='B' THEN 
+		UPDATE game_status
+		SET p_turn= 'R';
+	ELSEIF color='R' THEN 
+		UPDATE game_status
+		SET p_turn= 'G';
+	ELSEIF color='G' THEN 
+		UPDATE game_status
+		SET p_turn= 'Y';
+	ELSE
+		UPDATE game_status
+		SET p_turn= 'B';
+	END IF;
 END IF;
 	
 END//
@@ -2349,37 +2379,33 @@ DELIMITER ;
 CREATE TABLE IF NOT EXISTS `players` (
   `username` varchar(20) DEFAULT NULL,
   `parts_color` enum('R','Y','G','B') NOT NULL,
-  `token` varchar(100) DEFAULT NULL,
-  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `player_status` enum('active','blocked') DEFAULT 'active',
   `final_points` int(11) DEFAULT NULL,
   PRIMARY KEY (`parts_color`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table blokus.players: ~4 rows (approximately)
-INSERT INTO `players` (`username`, `parts_color`, `token`, `last_action`, `player_status`, `final_points`) VALUES
-	('red', 'R', 'c76ad223a3ae39cdef46f90f1ae6d971', '2022-12-31 12:59:47', 'active', NULL),
-	('yellow', 'Y', '3141a9e9b94d2524e6261e6ccdbb702b', '2022-12-31 12:59:50', 'active', NULL),
-	('green', 'G', '8ff1200eb3d4d4a72fd644db42a2aad7', '2022-12-31 12:59:52', 'active', NULL),
-	('blue', 'B', '67a2ef51ff840a39db9eb7f0355aaa25', '2022-12-31 12:59:55', 'active', NULL);
+INSERT INTO `players` (`username`, `parts_color`, `player_status`, `final_points`) VALUES
+	('red', 'R', 'active', NULL),
+	('yellow', 'Y', 'active', NULL),
+	('green', 'G', 'active', NULL),
+	('blue', 'B', 'active', NULL);
 
 -- Dumping structure for πίνακας blokus.players_start
 CREATE TABLE IF NOT EXISTS `players_start` (
   `username` varchar(20) DEFAULT NULL,
   `parts_color` enum('R','Y','G','B') NOT NULL,
-  `token` varchar(100) DEFAULT NULL,
-  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `player_status` enum('active','blocked') DEFAULT 'active',
   `final_points` int(11) DEFAULT NULL,
   PRIMARY KEY (`parts_color`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 -- Dumping data for table blokus.players_start: ~4 rows (approximately)
-INSERT INTO `players_start` (`username`, `parts_color`, `token`, `last_action`, `player_status`, `final_points`) VALUES
-	('red', 'R', 'c76ad223a3ae39cdef46f90f1ae6d971', '2022-12-31 12:59:47', 'active', NULL),
-	('yellow', 'Y', '3141a9e9b94d2524e6261e6ccdbb702b', '2022-12-31 12:59:50', 'active', NULL),
-	('green', 'G', '8ff1200eb3d4d4a72fd644db42a2aad7', '2022-12-31 12:59:52', 'active', NULL),
-	('blue', 'B', '67a2ef51ff840a39db9eb7f0355aaa25', '2022-12-31 12:59:55', 'active', NULL);
+INSERT INTO `players_start` (`username`, `parts_color`, `player_status`, `final_points`) VALUES
+	('red', 'R', 'active', NULL),
+	('yellow', 'Y', 'active', NULL),
+	('green', 'G', 'active', NULL),
+	('blue', 'B', 'active', NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
