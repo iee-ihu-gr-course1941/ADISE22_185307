@@ -10,7 +10,7 @@ function move_part($x, $y, $part_name, $orientation){
 	$st->bind_param('iiss',$x, $y, $part_name, $orientation);
 	$st->execute();
 
-    show_board();
+    show_board(); 
 }
 
 ?>

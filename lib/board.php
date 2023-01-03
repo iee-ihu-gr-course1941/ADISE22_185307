@@ -17,7 +17,7 @@ function reset_board(){
 
     $sql = 'call clean_board()';
     $mysqli-> query($sql);
-    show_board();
+    show_board(); 
 }
 
 ?>

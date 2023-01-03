@@ -10,7 +10,7 @@ function show_status(){
 
     header('Content-type: application/json');
     print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-}
+} 
 
 
 

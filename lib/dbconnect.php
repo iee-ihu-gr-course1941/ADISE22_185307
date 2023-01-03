@@ -5,7 +5,7 @@ $db= 'blokus';
 require_once "db_upass.php";
 
 $user=$DB_USER;
-$pass=$DB_PASS;
+$pass=$DB_PASS; 
 
 if(gethostname()=='users.iee.ihu.gr'){
     $mysqli = new mysqli($host, $user, $pass, $db, null,'/home/student/it/2018/it185307/mysql/run/mysql.sock');

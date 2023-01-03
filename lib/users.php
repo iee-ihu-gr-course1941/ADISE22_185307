@@ -40,6 +40,6 @@ function user_pass(){
     $sql = 'call pass()';
     $mysqli-> query($sql);
     show_board();
-}
+} 
 
 ?>
