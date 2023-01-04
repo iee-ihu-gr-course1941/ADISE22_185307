@@ -62,7 +62,7 @@ function handle_parts($method){
 
 function handle_move($method, $x, $y, $part_name, $orientation, $input){
 
-    if($method=='PUT'){
+    if($method=='POST'){
         move_part($x, $y, $part_name, $orientation);
     }else{
         header('HTTP/1.1405 Method Not Allowed');
