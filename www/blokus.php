@@ -10,7 +10,6 @@ require_once "../lib/move.php";
 
 $method = $_SERVER['REQUEST_METHOD'];
 $request=explode('/', trim($_SERVER['PATH_INFO'],'/'));
-//$request= explode('/',trim($_SERVER['SCRIPT_NAME'],'/'));
 $input = json_decode(file_get_contents('php://input'), true);
 
 switch ($r=array_shift($request)){
@@ -18,7 +17,6 @@ switch ($r=array_shift($request)){
     case 'board' :
         if (sizeof($request)==0) {handle_board($method);}
         else {header("HTTP/1.1 404 Not Found");}
-        print_r($request[0]);
         break;
     case 'status':
         if (sizeof($request)==0) {handle_status($method);}
@@ -27,7 +25,7 @@ switch ($r=array_shift($request)){
     case 'players': handle_player($method, $request, $input);
         break;
     case 'parts': 
-        if (sizeof($request)==0) {handle_parts($method); print_r($request[0]);}
+        if (sizeof($request)==0) {handle_parts($method);}
         else {header("HTTP/1.1 404 Not Found");}
         break;
     case 'move': if (sizeof($request)==4) {handle_move($method, $request[0],$request[1],$request[2],$request[3], $input);}
